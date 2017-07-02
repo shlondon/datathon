@@ -9,7 +9,7 @@ objetivo de garantizar la calidad, pertinencia,
 equidad e inclusión de la educación en América Latina?*
 
 En la carpeta **Script** se encuentra el código en el lenguaje R 
-que soporta la solución. Allí esta dos subcarpetas: 
+que soporta la solución. Allí hay dos subcarpetas: 
 **Carga y preproceso** con las diferentes funciones que premiten
 cargar y crear la base de datos de entrenamiento *bd_Train.csv*,
 la base de datos de prueba *bd_Test.csv* y las bases de datos de
@@ -20,7 +20,8 @@ entrenamiento: *bd_Train1.csv*, *bd_Valid2.csv*, *bd_Valid3.csv*,
 con el código que permite ejecutar los algoritmos supervisados:
 *Uno vs todos Regresión Logistica Multivariada*, 
 *Árbol de clasificación*, *Bagging con Árboles de clasificación*,
-*Boosting con Árboles de clasificación*.
+*Boosting con Árboles de clasificación* y *Bosques aleatorios de
+clasificación*.
 
 En el archivo **Informe.pdf** está compuesto por una breve descripción
 de la solución al desafió, la metodología,
