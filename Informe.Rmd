@@ -1,6 +1,6 @@
 ---
 title: "Solucion Datathon"
-author: "Santiago Humberto Londoño Restrepo"
+author: "Sahlre"
 date: "1 de julio de 2017"
 output: pdf_document
 ---
