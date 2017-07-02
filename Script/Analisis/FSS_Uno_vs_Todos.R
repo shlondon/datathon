@@ -1,6 +1,8 @@
-
-
-
+#Esta función permite aplicar la técnica de selección paso a paso hacia adelante
+#de variables. k es la cantidad de mejores variables y bd_entrenamiento es
+#la base de datos de entrenamiento.
+#Esta función retorna el nombre de las 10 mejores variables y
+#la precisión de entrenamiento de los mejores 10 modelos
 FSS <- function(k,bd_entrenamiento){
         if(k<2){
                 print("k debe ser un numero mayor o igual a 2")
@@ -160,26 +162,10 @@ FSS <- function(k,bd_entrenamiento){
         }
 }
 
-system.time(d <- FSS(k = 20,bd_entrenamiento = "bd_Train.csv"))
+system.time(d <- FSS(k = 23,bd_entrenamiento = "bd_Train.csv"))
 
-#34.95233 minutos
-
-
-#Los 10 mejores modelos
-d$vbleFSS
-vmm <- c("P5210s16", "P6100", "P6040", "P6240", "P6170", "P4020",
-          "Dpto", "P5210s22", "P7505", "P6008", "P6160", "P4030s4",
-          "P5090", "P7480s8", "P5210s3",  "P5210s10", "P6020", "P7480s6",
-          "P4030s3", "P5210s2", "P5210s9", "P5210s20", "P4010")
-#[8]
-
-d$precMM
-pmm <- c(0.5110944, 0.5353788, 0.5431182, 0.5789106,
-         0.5926614, 0.6005111, 0.6047392, 0.6126992,
-         0.6181591, 0.6216335, 0.6245014, 0.6266522,
-         0.6289134, 0.6296855, 0.6312297, 0.6323510,
-         0.6351821, 0.6356601, 0.6360829, 0.6366528,
-         0.6367998, 0.6375903, 0.6380131)
+vmm <- d$vbleFSS
+pmm <- d$precMM
 
 #Función que calcula la precisión para un conjunto de datos de validación
 #a partir de vmm que es el vector con el nombre de las
@@ -256,8 +242,8 @@ precValid <- function(bd_entrenamiento, bd_validacion, vmm){
 }
 
 system.time(precValid1 <- precValid(bd_entrenamiento = "bd_Train1.csv",
-                        bd_validacion = "bd_Valid1.csv",
-                        vmm = vmm))
+                                    bd_validacion = "bd_Valid1.csv",
+                                    vmm = vmm))
 system.time(precValid2 <- precValid(bd_entrenamiento = "bd_Train2.csv",
                                     bd_validacion = "bd_Valid2.csv",
                                     vmm = vmm))
@@ -272,7 +258,7 @@ system.time(precValid5 <- precValid(bd_entrenamiento = "bd_Train5.csv",
                                     vmm = vmm))
 
 precValid <- (precValid1 + precValid2 + precValid3 +
-        precValid4 + precValid5)/5
+                      precValid4 + precValid5)/5
 
 errorValid <- 1 - precValid
 
@@ -282,18 +268,21 @@ df <- data.frame(error = c(1-pmm,errorValid),
                            rep("Valid", length(pmm))),
                  modelos = as.integer(rep(1:length(pmm),2)))
 library(ggplot2)
-ggplot(df, aes(y=round(error,1), x=modelos, col=datos)) +
+ggplot(df, aes(y=round(error,2), x=modelos, col=datos)) +
         geom_point() +
-        geom_line()
+        geom_line() +
+        scale_y_continuous(limits = c(0.00,1))+
+        geom_hline(yintercept=c(0.3,0.4, 0.5))
 
 #Se elije el modelo con las 4 mejores variables,
 #ya que, como se observa en la gráfica a partir de la cuarta
 #variable tanto el error de entrenamiento como de validación
 #es igual a 0.4 valor que se mantiene con las otras variables
 
-vmm[1:4]
+vmm[1:6]
 
-mejores_variables <- c("P5210s16", "P6100", "P6040", "P6240")
+mejores_variables <- c("P5210s16", "P6100", "P6040", "P6240",
+                       "P6170", "P4020")
 
 #Error de prueba
 #La funci?n MSE_CV_logit calcula Misclassification Error al algoritmo One vs all
@@ -364,8 +353,8 @@ system.time(Error_prueba_Logit <- MSE_CV_Logit(bd_entrenamiento = "bd_Train.csv"
 system.time(Error_entrenamiento_Logit <- MSE_CV_Logit(bd_entrenamiento = "bd_Train.csv",
                                                       bd_validacion = "bd_Train.csv"))
 
-#Error de entrenamiento y de prueba para el modelo con las 4 mejores variables
-MSE_CV_Logit_FSS_4Vbles <- function(bd_entrenamiento, bd_validacion){
+#Error de entrenamiento y de prueba para el modelo con las 6 mejores variables
+MSE_CV_Logit_FSS_6Vbles <- function(bd_entrenamiento, bd_validacion){
         bd_Train1 <- read.csv(bd_entrenamiento, colClasses = "factor")
 
         bd_Valid1 <- read.csv(bd_validacion, colClasses = "factor")
@@ -388,16 +377,16 @@ MSE_CV_Logit_FSS_4Vbles <- function(bd_entrenamiento, bd_validacion){
         bd_Valid1$P6008 <- as.integer(bd_Valid1$P6008)
 
         #Modelo1 Bajo
-        m1 <- glm(as.factor(ifelse(bd_Train1$P6210nuevo == "Bajo","1","0"))~ P5210s16+P6100+P6040+P6240,
+        m1 <- glm(as.factor(ifelse(bd_Train1$P6210nuevo == "Bajo","1","0"))~ P5210s16+P6100+P6040+P6240+P6170+P4020,
                   family = "binomial",
                   data = bd_Train1[,-c(61)])
 
         #Modelo2 Medio
-        m2 <- glm(as.factor(ifelse(bd_Train1$P6210nuevo == "Medio","1","0"))~P5210s16+P6100+P6040+P6240,
+        m2 <- glm(as.factor(ifelse(bd_Train1$P6210nuevo == "Medio","1","0"))~P5210s16+P6100+P6040+P6240+P6170+P4020,
                   family = "binomial",
                   data = bd_Train1[,-c(61)])
         #Modelo3 Alto
-        m3 <- glm(as.factor(ifelse(bd_Train1$P6210nuevo == "Alto","1","0"))~P5210s16+P6100+P6040+P6240,
+        m3 <- glm(as.factor(ifelse(bd_Train1$P6210nuevo == "Alto","1","0"))~P5210s16+P6100+P6040+P6240+P6170+P4020,
                   family = "binomial",
                   data = bd_Train1[,-c(61)])
 
@@ -419,8 +408,8 @@ MSE_CV_Logit_FSS_4Vbles <- function(bd_entrenamiento, bd_validacion){
 
 }
 
-system.time(Error_prueba_Logit_FSS <- MSE_CV_Logit_FSS_4Vbles(bd_entrenamiento = "bd_Train.csv",
-                                               bd_validacion = "bd_Test.csv"))
+system.time(Error_prueba_Logit_FSS <- MSE_CV_Logit_FSS_6Vbles(bd_entrenamiento = "bd_Train.csv",
+                                                              bd_validacion = "bd_Test.csv"))
 
-system.time(Error_entrenamiento_Logit_FSS <- MSE_CV_Logit_FSS_4Vbles(bd_entrenamiento = "bd_Train.csv",
-                                                      bd_validacion = "bd_Train.csv"))
+system.time(Error_entrenamiento_Logit_FSS <- MSE_CV_Logit_FSS_6Vbles(bd_entrenamiento = "bd_Train.csv",
+                                                                     bd_validacion = "bd_Train.csv"))

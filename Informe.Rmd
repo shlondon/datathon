@@ -100,12 +100,20 @@ Al estimar el modelo con las seis variables se producen los siguientes indicador
 - Error de clasificación de entrenamiento = 0.3995
 - Error de clasificación de prueba = 0.4002
 
-Este modelo es si se tiene en cuenta que al estimar el modelo con todas (60) las variables los indicadores son:
+Este modelo es aceptable si se tiene en cuenta que al estimar el modelo con todas (60) las variables los indicadores son:
 
 - Error de clasificación de entrenamiento = 0.3590
 - Error de clasificación de prueba = 0.3602
 
+También es importante mencionar que en la gráfica anterior se observa que la línea de error de predicción para datos de validación y datos de entrenamiento se solapan. Esto sugiere que hay alto sesgo. Es decir el algoritmo planteado es muy simple para modelar el nivel educativo, lo que indica varios caminos a seguir si se desea mejorar la predicción:
 
+- Permitir al modelo capturar relaciones no lineales. Esto se lograría a través de interacción entre variables y aumentar el grado de polinomio de aquellas variables que sean continuas.
+
+- Usar algorítmos como las Redes Neuronales, las Máquinas de Soporte Vectorial o Bosques Aleatorios, reconocidos por la capacidad de predicción en escenarios complejos.
+
+- Adicionar nuevas variables.
+
+### Árbol de Clasificación.
 
 
 
