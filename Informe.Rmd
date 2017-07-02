@@ -104,7 +104,9 @@ Este modelo es aceptable si se tiene en cuenta que al estimar el modelo con toda
 - Error de clasificación de entrenamiento = 0.3590
 - Error de clasificación de prueba = 0.3602
 
-También es importante mencionar que en la gráfica anterior se observa que la línea de error de predicción para datos de validación y datos de entrenamiento se solapan. Esto sugiere que hay alto sesgo. Es decir el algoritmo planteado es muy simple para modelar el nivel educativo, lo que indica varios caminos a seguir si se desea mejorar la predicción:
+También es importante mencionar que en la gráfica anterior se observa que la línea de error de predicción para datos de validación y datos de entrenamiento se solapan. Esto sugiere que hay alto sesgo. Es decir la hipótesis del algoritmo planteado es muy simple para modelar el nivel educativo. Otra señal de alto sesgo es cuando el error de clasificación es alto y el error de clasificación en datos de entrenamiento y en datos de validación son muy similares.
+
+Resultados que indican varios caminos a seguir si se desea mejorar la predicción:
 
 - Permitir al modelo capturar relaciones no lineales. Esto se lograría a través de interacción entre variables y aumentar el grado de polinomio de aquellas variables que sean continuas.
 
@@ -115,7 +117,18 @@ También es importante mencionar que en la gráfica anterior se observa que la l
 ### Árbol de Clasificación.
 *El código para estimar el algorítmo se encuentra en el archivo* [Tree](https://github.com/shlondon/datathon/blob/master/Script/Analisis/Tree.R)
 
-Los métodos basados en árboles consisten en segmentar el espacio de variables predictoras (independientes) dentro de un número más simple de regiones.
+Los métodos basados en árboles consisten en segmentar el espacio de variables predictoras (independientes) dentro de un número más simple de regiones. Luego de estimar el árbol de clasificación y realizar la respectiva podación se obtiene:
+
+- Error de clasificación de entrenamiento = 0.3945
+- Error de clasificación de prueba = 0.4029
+
+Con el algortimo Árbol de clasifiacación sucede algo similar al resultado del anterior algoritmo. Los errores de clasificación en datos de entrenamiento y de prueba son altos y similares, lo que indica alto sesgo. De esta manera, para aumentar el nivel de predicción sería necesario utilizar algorítmos que produzcan hipótesis no lineales complejas como lo son las Redes Neuronales, las Maquinas de Soporte Vectorial o los Bosques Aleatorios.
+
+
+### Bagging de Árboles de clasificación
+Uno de los problemas más recurrentes de los árboles de decisión es la débil precisión en el pronóstico. El método Bagging o Bootstrap aggregation es un procedimiento para reducir la varianza de los algorítmos supervisados.
+
+
 
 
 
