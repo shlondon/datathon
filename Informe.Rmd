@@ -35,7 +35,76 @@ En la base de datos *bd_Nac.csv* aún hay presencia de valores pérdidos ya que 
 
 Este último procedimiento se encuentra soportado en el archivo **[Preproceso de datos 1](https://github.com/shlondon/datathon/blob/master/Script/Carga%20y%20preproceso/Preproceso%20de%20datos%201.Rmd)**. Allí el código produce la base de datos: *bd_Nac_final.csv*
 
-Finalmente en el proceso de construcción de la base de datos sobre la que se realizará el entrenamiento de los algoritmos así como su evaluación de pronóstico, en el archivo **[Datos de entrenamiento y de prueba](https://github.com/shlondon/datathon/blob/master/Script/Carga%20y%20preproceso/Datos%20de%20entrenamiento%20y%20de%20prueba.Rmd)** se encuentra el código que produce las bases de datos de entrenamiento, validación y prueba.
+Finalmente en el proceso de construcción de la base de datos sobre la que se realizará el entrenamiento de los algoritmos así como su evaluación de pronóstico, en el archivo **[Datos de entrenamiento y de prueba](https://github.com/shlondon/datathon/blob/master/Script/Carga%20y%20preproceso/Datos%20de%20entrenamiento%20y%20de%20prueba.Rmd)** se encuentra el código que produce las bases de datos de entrenamiento, validación y prueba. La base de datos de entrenamiento *bd_Train.csv* tiene 54397 observaciones y 61 variables, y la base de datos de prueba *bd_Test.csv* tiene 13598 observaciones y 61 variables.
+
+##Predicción del nivel educativo
+
+###Uno vs todos Regresión Logistica Multivariada
+
+*El código para estimar el algorítmo se encuentra en el archivo* [FSS Uno vs Todos](https://github.com/shlondon/datathon/blob/master/Script/Analisis/FSS_Uno_vs_Todos.R)
+
+Cómo el nivel educativo, variable dependiente, asume tres niveles: Bajo-Medio-Alto,
+la predicción de esta variable no se puede ejecutar a través de la Regresión Logistica Multivariada adecuada para una variable resultado binaria. Este algoritmo consiste en aplicar una regresión logística multivariada por cada nivel asumido en la variable dependiente. De esta manera se estiman tres modelos: el primero con la variable dependiente asumiendo sólo dos valores: "Bajo" y "El resto", el segundo con la variable dependiente: "Medio" y "El resto", y el tercero con: "Alto" y "El resto".
+
+Con el propósito de crear un modelo con mayor nivel de interpretación se utilizó la técnica de selección de variables: Forward Stepwise Selection (FSS).
+
+Los resultados de las primeros 23 modelos se presentan en la siguiente gráfica.
+
+```{r, warning=FALSE, message=FALSE, echo=FALSE,fig.align='center'}
+vmm <- c("P5210s16", "P6100", "P6040", "P6240", "P6170", "P4020",
+          "Dpto", "P5210s22", "P7505", "P6008", "P6160", "P4030s4",
+          "P5090", "P7480s8", "P5210s3",  "P5210s10", "P6020", "P7480s6",
+          "P4030s3", "P5210s2", "P5210s9", "P5210s20", "P4010")
+
+pmm <- c(0.5110944, 0.5353788, 0.5431182, 0.5789106,
+         0.5926614, 0.6005111, 0.6047392, 0.6126992,
+         0.6181591, 0.6216335, 0.6245014, 0.6266522,
+         0.6289134, 0.6296855, 0.6312297, 0.6323510,
+         0.6351821, 0.6356601, 0.6360829, 0.6366528,
+         0.6367998, 0.6375903, 0.6380131)
+precValid1 <- c(0.5107429,0.5347336,0.5419951,0.5790840,0.5927569, 0.5996048,0.6049820,0.6124503,0.6177356,0.6210906,0.6238482,0.6267895, 0.6285590,0.6289956,0.6309258,0.6315693,0.6350392,0.6350851, 0.6353839,0.6352460,0.6367167,0.6368086,0.637015)
+
+precValid2 <- c(0.5102604,0.5351702,0.5425006,0.5782108,0.5916998,0.5999265,0.6038330,0.6135074,0.6192752,0.6232277,0.6257555,0.6279155,0.6291105,0.6300526,0.6317761,0.6330400,0.6359354,0.6360273,0.6365558,0.6367167,0.6371533,0.6375210,0.6380955)
+
+precValid3 <- c(0.5123621,0.5357767,0.5413603,0.5788373,0.5923943,0.6000000,0.6033318,0.6121783,0.6186811,0.6217142,0.6236673,0.6261489,0.6276884,0.6285616,0.6307904,0.6317096,0.6351333,0.6353171,0.6354550,0.6351562,0.6371783,0.6371783,0.6376608)
+
+precValid4 <- c(0.5105014,0.5354796,0.5434303,0.5791397,0.5926743,0.6000735,0.6046234,0.6100924,0.6165954,0.6199963,0.6221334,0.6243394, 0.6261087,0.6284066,0.6289352,0.6296245,0.6333471,0.6336458,0.6345190,0.6339446,0.6346339,0.6356910,0.6357829)
+
+precValid5 <- c(0.5116049,0.5357340,0.5455694,0.5784999,0.5940574,0.6017557,0.6049499,0.6130848,0.6187839,0.6213577,0.6249425,0.6272406, 0.6296305,0.6302050,0.6317676,0.6324111,0.6347091,0.6352376,0.6355823,0.6360649,0.6376275,0.6380642,0.6380642)
+
+precValid <- (precValid1 + precValid2 + precValid3 +
+        precValid4 + precValid5)/5
+
+errorValid <- 1 - precValid
+
+#Gráfica validation error y training error
+df <- data.frame(error = c(1-pmm,errorValid),
+                 datos = c(rep("Train",length(pmm)),
+                           rep("Valid", length(pmm))),
+                 modelos = as.integer(rep(1:length(pmm),2)))
+library(ggplot2)
+ggplot(df, aes(y=round(error,2), x=modelos, col=datos)) +
+        geom_point() +
+        geom_line() +
+        scale_y_continuous(limits = c(0.0,1))+
+        xlab("Cantidad de variables en los modelos")+
+        ylab("Error en predicción") +
+        geom_hline(yintercept=0.3994889)+
+        annotate("text",7,0.35,label="0.3995 Error en predicción con las seis mejores variables",size=3)
+```
+
+Se observa que a partir de las seis mejores variables el error de predicción tanto para datos de entrenamiento (Train) como para datos de validación (Valid) disminuye lentamente. De esta manera se eligen las primeras seis variables seleccionadas a partir del método FSS que son: P5210s16, P6100, P6040, P6240, P6170, P4020.
+
+Al estimar el modelo con las seis variables se producen los siguientes indicadores:
+
+- Error de clasificación de entrenamiento = 0.3995
+- Error de clasificación de prueba = 0.4002
+
+Este modelo es si se tiene en cuenta que al estimar el modelo con todas (60) las variables los indicadores son:
+
+- Error de clasificación de entrenamiento = 0.3590
+- Error de clasificación de prueba = 0.3602
+
 
 
 
