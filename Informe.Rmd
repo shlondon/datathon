@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Introducción
 
-*Lo que esta en negrilla es un link que llevará al respectivo documento*.
+*Lo que esta en negrilla es un link que llevará al respectivo documento, para que esto funcione debe descargar primero el pdf. Si quiere una lectura online más interactiva leer el archivo* **[Informe.Rmd](https://github.com/shlondon/datathon/blob/master/Informe.Rmd)**. 
 
 Los datos abiertos relacionados al sector educativo contienen diversas mediciones (variables o características) asociadas a los hogares que podrían dar solución al desafió de inversión educativa en Colombia. Una de ellas es  el nivel educativo de las personas, variable que se convierte en la variable resultado o dependiente que se intentará predecir con las otras características asociadas a cada una de los individuos, como por ejemplo, sólo por mencionar algunas, el género, el material predominante de las paredes exteriores y estado laboral. 
 
