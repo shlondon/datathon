@@ -24,7 +24,7 @@ con el código que permite ejecutar los algoritmos supervisados:
 *Boosting con Árboles de clasificación* y *Bosques aleatorios de
 clasificación*.
 
-En el archivo [Informe.pdf](https://github.com/shlondon/datathon/blob/master/Informe.pdf) 
+En el archivo [Informe.pdf](https://github.com/shlondon/datathon/blob/master/Informe.pdf) (para una lectura online más interactiva leer [Informe.Rmd](https://github.com/shlondon/datathon/blob/master/Informe.Rmd))
 está compuesto por una breve descripción
 de la solución al desafió, la metodología,
 las técnicas y la tecnología empleada, y los resultados finales.
