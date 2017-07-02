@@ -117,7 +117,7 @@ Resultados que indican varios caminos a seguir si se desea mejorar la predicció
 ### Árbol de Clasificación.
 *El código para estimar el algorítmo se encuentra en el archivo* [Tree](https://github.com/shlondon/datathon/blob/master/Script/Analisis/Tree.R)
 
-Los métodos basados en árboles consisten en segmentar el espacio de variables predictoras (independientes) dentro de un número más simple de regiones. Luego de estimar el árbol de clasificación y realizar la respectiva podación se obtiene:
+Los métodos basados en árboles consisten en segmentar el espacio de variables predictoras (independientes) dentro de un número más simple de regiones. Luego de estimar el árbol de clasificación para las 60 variables predictoras o independientes se obtiene:
 
 - Error de clasificación de entrenamiento = 0.3945
 - Error de clasificación de prueba = 0.4029
@@ -126,7 +126,16 @@ Con el algortimo Árbol de clasifiacación sucede algo similar al resultado del 
 
 
 ### Bagging de Árboles de clasificación
-Uno de los problemas más recurrentes de los árboles de decisión es la débil precisión en el pronóstico. El método Bagging o Bootstrap aggregation es un procedimiento para reducir la varianza de los algorítmos supervisados.
+
+*El código para estimar el algorítmo se encuentra en el archivo* [Bagging](https://github.com/shlondon/datathon/blob/master/Script/Analisis/Bagging.R)
+
+Uno de los problemas más recurrentes de los árboles de decisión es la débil precisión en el pronóstico. El método Bagging o Bootstrap aggregation es un procedimiento para reducir la varianza de los algorítmos supervisados. Luego de estimar el algorítmo para todas la variables predictoras se obtiene:
+
+- Error de clasificación de entrenamiento = 0.007
+- Error de clasificación de prueba = 0.1925
+
+### Bosques Aleatorios
+
 
 
 
