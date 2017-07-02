@@ -38,7 +38,6 @@ Este último procedimiento se encuentra soportado en el archivo **[Preproceso de
 Finalmente en el proceso de construcción de la base de datos sobre la que se realizará el entrenamiento de los algoritmos así como su evaluación de pronóstico, en el archivo **[Datos de entrenamiento y de prueba](https://github.com/shlondon/datathon/blob/master/Script/Carga%20y%20preproceso/Datos%20de%20entrenamiento%20y%20de%20prueba.Rmd)** se encuentra el código que produce las bases de datos de entrenamiento, validación y prueba. La base de datos de entrenamiento *bd_Train.csv* tiene 54397 observaciones y 61 variables, y la base de datos de prueba *bd_Test.csv* tiene 13598 observaciones y 61 variables.
 
 ##Predicción del nivel educativo
-
 ###Uno vs todos Regresión Logistica Multivariada
 
 *El código para estimar el algorítmo se encuentra en el archivo* [FSS Uno vs Todos](https://github.com/shlondon/datathon/blob/master/Script/Analisis/FSS_Uno_vs_Todos.R)
@@ -114,7 +113,9 @@ También es importante mencionar que en la gráfica anterior se observa que la l
 - Adicionar nuevas variables.
 
 ### Árbol de Clasificación.
+*El código para estimar el algorítmo se encuentra en el archivo* [Tree](https://github.com/shlondon/datathon/blob/master/Script/Analisis/Tree.R)
 
+Los métodos basados en árboles consisten en segmentar el espacio de variables predictoras (independientes) dentro de un número más simple de regiones.
 
 
 
