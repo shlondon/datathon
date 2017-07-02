@@ -90,7 +90,7 @@ ggplot(df, aes(y=round(error,2), x=modelos, col=datos)) +
         xlab("Cantidad de variables en los modelos")+
         ylab("Error en predicción") +
         geom_hline(yintercept=0.3994889)+
-        annotate("text",5,0.37,label="0.3995 Error en predicción con las seis mejores variables",size=1)
+        annotate("text",4.3,0.37,label="0.3995 Error en predicción con las seis mejores variables",size=1.9)
 ```
 
 Se observa que a partir de las seis mejores variables el error de predicción tanto para datos de entrenamiento (Train) como para datos de validación (Valid) disminuye lentamente. De esta manera se eligen las primeras seis variables seleccionadas a partir del método FSS que son: P5210s16, P6100, P6040, P6240, P6170, P4020.
