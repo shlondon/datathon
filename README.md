@@ -8,15 +8,16 @@ millones de dólares
 objetivo de garantizar la calidad, pertinencia, 
 equidad e inclusión de la educación en América Latina?*
 
-En la carpeta **Script** se encuentra el código en el lenguaje R 
+En la carpeta [Script](https://github.com/shlondon/datathon/tree/master/Script) se encuentra el código en el lenguaje R 
 que soporta la solución. Allí hay dos subcarpetas: 
-**Carga y preproceso** con las diferentes funciones que premiten
+[Carga y preproceso](https://github.com/shlondon/datathon/tree/master/Script/Carga%20y%20preproceso) con las diferentes funciones que premiten
 cargar y crear la base de datos de entrenamiento *bd_Train.csv*,
 la base de datos de prueba *bd_Test.csv* y las bases de datos de
 validación *bd_Valid1.csv*, *bd_Valid2.csv*, *bd_Valid3.csv*, 
 *bd_Valid4.csv* y *bd_Valid5.csv* con sus respectivas bases de 
 entrenamiento: *bd_Train1.csv*, *bd_Valid2.csv*, *bd_Valid3.csv*,
-*bd_Valid4.csv* y *bd_Valid5.csv*. Y la subcarpeta **Análisis**
+*bd_Valid4.csv* y *bd_Valid5.csv*, alli también se encuentra la definición de cada una de las variables. 
+Y la subcarpeta [Análisis](https://github.com/shlondon/datathon/tree/master/Script/Analisis)
 con el código que permite ejecutar los algoritmos supervisados:
 *Uno vs todos Regresión Logistica Multivariada*, 
 *Árbol de clasificación*, *Bagging con Árboles de clasificación*,
