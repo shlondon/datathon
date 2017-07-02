@@ -29,7 +29,7 @@ está compuesto por una breve descripción
 de la solución al desafió, la metodología,
 las técnicas y la tecnología empleada, y los resultados finales.
 
-Y en el archivo **Fichero_de_test.pdf** expone el error
+Y en el archivo [Fichero_de_test.pdf](https://github.com/shlondon/datathon/blob/master/Fichero_de_test.pdf) expone el error
 de prueba y el error de entrenamiento de cada uno de los 
 algoritmos supervisados estimados.
 
