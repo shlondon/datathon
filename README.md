@@ -1,6 +1,6 @@
 # Solución equipo Sahlre
 
-En este sitio web se encuentra la solución del equipo Sahlre
+En este repositorio se encuentra la solución del equipo Sahlre
 aL **Desafio Inversión Educativa**. Desafio que 
 consiste en responder: *Si tuviera un fondo de 100 
 millones de dólares 
