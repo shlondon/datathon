@@ -14,6 +14,8 @@ que soporta la solución. Allí esta dos subcarpetas:
 cargar y crear la base de datos de entrenamiento *bd_Train.csv*,
 la base de datos de prueba *bd_Test.csv* y las bases de datos de
 validación *bd_Valid1.csv*, *bd_Valid2.csv*, *bd_Valid3.csv*, 
+*bd_Valid4.csv* y *bd_Valid5.csv* con sus respectivas bases de 
+entrenamiento: *bd_Train1.csv*, *bd_Valid2.csv*, *bd_Valid3.csv*,
 *bd_Valid4.csv* y *bd_Valid5.csv*. Y la subcarpeta **Análisis**
 con el código que permite ejecutar los algoritmos supervisados:
 *Uno vs todos Regresión Logistica Multivariada*, 
