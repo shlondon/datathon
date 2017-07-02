@@ -1,0 +1,231 @@
+---
+title: "Carga y preproceso de datos"
+author: "Sahlre"
+date: "20 de junio de 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Bases de datos
+
+Se trabaja con las bases de datos del mes de abril de la Gran Encuesta Integrada
+de Hogares (GEIH) - 2017. Se pueden encontrar en: http://formularios.dane.gov.co/Anda_4_1/index.php/catalog/458.
+
+
+Se elijieron las bases de datos del mes de abril. Luego con el objetivo 
+de tener una base de datos a nivel nacional con la mayor cantidad de observaciones
+se seleccionaron las bases de datos: **Características Generales**, **Fuerza Laboral**, **Fuerza de trabajo**, **Otras actividades y ayudas en la semana**,
+**otros ingresos** y **Vivienda y hogares**, tanto para Areas metropolitanas como para Cabeceras y zonas Rurales. Con cada una de esas bases de datos se procedió
+a seleccionar aquellas variables con un porcentaje de valores pérdidos inferior al 10%. Tal decisión se toma con la intención de crear un modelo predictivo del nivel educativo que aproveche la mayor cantidad de observaciones de las bases de datos de la GEIH. De esta manera, la propuesta de este análisis de datos no se convierte en una respuesta única a la variación del nivel educativo de los colombianos, sino en una aproximación al mejor modelo predictivo del nivel educativo de los colombianos a partir de la GEIH.
+
+Luego utilizando las llaves de cada una de las bases de datos, se procedió a unirlas, lo que arrojó una base de datos total nacional de 68042 observaciones
+con 67 variables, incluyendo las llaves.
+
+El siguiente código permite crear dicha base de datos total.
+
+```{r, eval=FALSE}
+#La función bd_completa() crea un data.frame cuyas variables tienen un porcentaje
+#de valores pérdidos inferior a 10% y con observaciones completas.
+#El argumento base_datos es el archivo tipo .txt 
+#que contiene la base de datos proporcionada por el DANE.
+
+bd_completa <- function(base_datos){
+        #Cargar base de datos
+        bd1 <- read.table(base_datos,
+                          colClasses = "character",
+                          header = TRUE,
+                          sep = "\t",
+                          na.strings = "")
+        
+        #Investigar Valores pérdidos
+        Vector_NA <- sapply(bd1, function(x){
+                round((sum(is.na(x))/dim(bd1)[1])*100,2)
+        })
+        
+        #Elección variables con porcentaje de valores pérdidos inferior a 10%
+        #Nombre de las variables a seleccionar
+        nombres <- names(Vector_NA[Vector_NA <= 10])
+        
+        #Base de datos bd1 cuyas variables tienen un porcentaje de valores pérdidos inferior
+        #a 10%, y sin valores pérdidos
+        bd1 <- bd1[,nombres]
+        bd1 <- bd1[complete.cases(bd1),]
+        
+        bd1
+        
+}
+
+
+#Areas Metropolitanas
+
+#Base de datos características Generales
+bd_Area_Car_Grals <- bd_completa(base_datos = lista_archivos[1])
+
+#Base de datos Fuerza de trabajo
+bd_Area_Fuerza_Trabajo <- bd_completa(base_datos = lista_archivos[3])
+
+#Base de datos Otras actividades y ayudas en la semana
+bd_Area_Otras_Actividades <- bd_completa(base_datos = lista_archivos[6])
+
+#Base de datos otros ingresos
+bd_Area_Otros_Ingresos <- bd_completa(base_datos = lista_archivos[7])
+
+#Base de datos Vivienda y hogares
+bd_Area_Vivienda_Hogares <- bd_completa(base_datos = lista_archivos[8])
+
+
+#Cabecera
+
+#Base de datos características Generales
+bd_Cabecera_Car_Grals <- bd_completa(base_datos = lista_archivos[9])
+
+#Base de datos Fuerza de trabajo
+bd_Cabecera_Fuerza_Trabajo <- bd_completa(base_datos = lista_archivos[11])
+
+#Base de datos Otras actividades y ayudas en la semana
+bd_Cabecera_Otras_Actividades <- bd_completa(base_datos = lista_archivos[14])
+
+#Base de datos otros ingresos
+bd_Cabecera_Otros_Ingresos <- bd_completa(base_datos = lista_archivos[15])
+
+#Base de datos Vivienda y hogares
+bd_Cabecera_Vivienda_Hogares <- bd_completa(base_datos = lista_archivos[16])
+
+
+#Resto (Rural)
+
+#Base de datos características Generales
+bd_Rural_Car_Grals <- bd_completa(base_datos = lista_archivos[18])
+
+#Base de datos Fuerza de trabajo
+bd_Rural_Fuerza_Trabajo <- bd_completa(base_datos = lista_archivos[20])
+
+#Base de datos Otras actividades y ayudas en la semana
+bd_Rural_Otras_Actividades <- bd_completa(base_datos = lista_archivos[23])
+
+#Base de datos otros ingresos
+bd_Rural_Otros_Ingresos <- bd_completa(base_datos = lista_archivos[24])
+
+#Base de datos Vivienda y hogares
+bd_Rural_Vivienda_Hogares <- bd_completa(base_datos = lista_archivos[25])
+
+#Uniendo bases de datos para Areas Metropolitanas
+bd_Area_Gral_y_Fue <- merge(bd_Area_Car_Grals[,-c(4,5,6,8,9,18,20,21,23)],
+                            bd_Area_Fuerza_Trabajo[,-c(4,5,7,9,10,12)],
+                            by = c("Directorio", "Secuencia_p", 
+                                   "Orden", "Area", "Dpto"))
+bd_Area_Gral_y_Fue_y_Act <- merge(bd_Area_Gral_y_Fue,
+                                  bd_Area_Otras_Actividades[,-c(4,5,17,19)],
+                                  by = c("Directorio", "Secuencia_p", 
+                                         "Orden", "Area", "Dpto"))
+
+bd_Area_Gral_y_Fue_y_Act_y_Ing <- merge(bd_Area_Gral_y_Fue_y_Act,
+                                        bd_Area_Otros_Ingresos[,-c(4,5,9,11)],
+                                        by = c("Directorio", "Secuencia_p", 
+                                               "Orden", "Area", "Dpto"))
+
+bd_Area_Tot <- merge(bd_Area_Gral_y_Fue_y_Act_y_Ing,
+                     bd_Area_Vivienda_Hogares[,-c(37,49,51,53)],
+                     by = c("Directorio", "Secuencia_p", "Area", "Dpto"),
+                     all.x = T)
+
+
+#Uniendo bases de datos para Cabeceras
+bd_Cabecera_Gral_y_Fue <- merge(bd_Cabecera_Car_Grals[,-c(4,5,6,8,9,18,20,21,23)],
+                            bd_Cabecera_Fuerza_Trabajo[,-c(4,5,7,9,10,12)],
+                            by = c("Directorio", "Secuencia_p", 
+                                   "Orden", "Clase", "Dpto"))
+
+bd_Cabecera_Gral_y_Fue_y_Act <- merge(bd_Cabecera_Gral_y_Fue,
+                                  bd_Cabecera_Otras_Actividades[,-c(4,5,17,19)],
+                                  by = c("Directorio", "Secuencia_p", 
+                                         "Orden", "Clase", "Dpto"))
+
+bd_Cabecera_Gral_y_Fue_y_Act_y_Ing <- merge(bd_Cabecera_Gral_y_Fue_y_Act,
+                                        bd_Cabecera_Otros_Ingresos[,-c(4,5,9,11)],
+                                        by = c("Directorio", "Secuencia_p", 
+                                               "Orden", "Clase", "Dpto"))
+bd_Cabecera_Tot <- merge(bd_Cabecera_Gral_y_Fue_y_Act_y_Ing,
+                     bd_Cabecera_Vivienda_Hogares[,-c(37,49,51,53)],
+                     by = c("Directorio", "Secuencia_p", "Clase", "Dpto"),
+                     all.x = T)
+
+#Uniendo bases de datos para Rural
+bd_Rural_Gral_y_Fue <- merge(bd_Rural_Car_Grals[,-c(4,5,6,8,9,18,20,21,23)],
+                                bd_Rural_Fuerza_Trabajo[,-c(4,5,7,9,11)],
+                                by = c("Directorio", "Secuencia_p", 
+                                       "Orden", "Clase", "Dpto"))
+bd_Rural_Gral_y_Fue_y_Act <- merge(bd_Rural_Gral_y_Fue,
+                                      bd_Rural_Otras_Actividades[,-c(4,5,17,19)],
+                                      by = c("Directorio", "Secuencia_p", 
+                                             "Orden", "Clase", "Dpto"))
+
+bd_Rural_Gral_y_Fue_y_Act_y_Ing <- merge(bd_Rural_Gral_y_Fue_y_Act,
+                                            bd_Rural_Otros_Ingresos[,-c(4,5,9,11)],
+                                            by = c("Directorio", "Secuencia_p", 
+                                                   "Orden", "Clase", "Dpto"))
+bd_Rural_Tot <- merge(bd_Rural_Gral_y_Fue_y_Act_y_Ing,
+                         bd_Rural_Vivienda_Hogares[,-c(36,45,47,49)],
+                         by = c("Directorio", "Secuencia_p", "Clase", "Dpto"),
+                         all.x = T)
+
+#Bases de datos total Nacional
+
+#Cambiando el nombre de la vairable area por clase
+#para que la base de datos bd_Area_Car_Grals coincida
+#con las de cabecera y rural. Esto es importante
+#para unir las bases de datos.
+nombres <- names(bd_Area_Tot)
+nombres[3] <- "Clase"
+names(bd_Area_Tot) <- nombres
+
+#Se cambia los valores de la variable clase en la base
+#de datos bd_Area_Car_Grals. Todos deben asumir el valor de 3
+#que representa áreas metropolitanas
+bd_Area_Tot$Clase <- "3"
+
+#Las bases de datos totales deben tener las mismas columnas (variables)
+#para poder crear el total nacional
+
+#La base de datos bd_Rural_Tot no tiene las variables P5030, P5220s1, P4030s1a1, 
+#P4030s4a1, P4040. Y las bases de datos bd_Area_Tot y bd_Cabecera_Tot no tienen
+#la variable P5130.
+
+#Se procede a eliminar dichas variables de las respectivas bases de datos que si
+#las poseen.
+
+bd_Area_Tot <- bd_Area_Tot[,-c(which(names(bd_Area_Tot)=="P5030"),
+                               which(names(bd_Area_Tot)=="P5220s1"),
+                               which(names(bd_Area_Tot)=="P4030s1a1"),
+                               which(names(bd_Area_Tot)=="P4030s4a1"),
+                               which(names(bd_Area_Tot)=="P4040"))]
+
+bd_Cabecera_Tot <- bd_Cabecera_Tot[,-c(which(names(bd_Cabecera_Tot)=="P5030"),
+                               which(names(bd_Cabecera_Tot)=="P5220s1"),
+                               which(names(bd_Cabecera_Tot)=="P4030s1a1"),
+                               which(names(bd_Cabecera_Tot)=="P4030s4a1"),
+                               which(names(bd_Cabecera_Tot)=="P4040"))]
+
+bd_Rural_Tot <- bd_Rural_Tot[,-c(which(names(bd_Rural_Tot)=="P5130"))]
+
+
+#Base de datos total nacional
+bd_Nac <- rbind.data.frame(bd_Area_Tot,
+                           bd_Cabecera_Tot,
+                           bd_Rural_Tot)
+
+#Eliminando valores perdidos, se producen luego de unir los datos de vivienda para cada 
+#una de las zonas. Algunos datos de las viviendas son faltantes entonces al momento
+#de unirlos con las respectivas personas se transforman en valores pérdidos.
+bd_Nac <- bd_Nac[complete.cases(bd_Nac),]
+
+#Codigo para transformar la base de datos bd_Nac en un archivo .csv.
+#Esto es muy útil para evitar el reproceso de crear la base de datos bd_Nac.
+#Atención: este nuevo archivo queda en la area de trabajo actual.
+write.csv(bd_Nac, "bd_Nac.csv")
+
+```
+
