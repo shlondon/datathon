@@ -1,8 +1,7 @@
 ## Definici?n de variables
 
 A continuacion se muestran el nombre de las variables, su significado y los valores asumidos, con su respectiva codificaci?n, por cada una de las variables que constituyen la base de datos total nacional
-construida en SITIO DONDE SE EJECUTO LA CARGA Y PREPROCESO DE LAS BASES DE DATOS.
-Esta informaci?n sobre las variables la pueden encontrar en el sitio web oficial del DANE: http://formularios.dane.gov.co/Anda_4_1/index.php/catalog/458, espec?ficamente
+construida en [Carga de datos](https://github.com/shlondon/datathon/blob/master/Script/Carga%20y%20preproceso/Carga%20de%20datos.Rmd). Esta informaci?n sobre las variables la pueden encontrar en el sitio web oficial del DANE: <http://formularios.dane.gov.co/Anda_4_1/index.php/catalog/458>, espec?ficamente
 en la pesta?a **Descripci?n de variables**. 22
 
 

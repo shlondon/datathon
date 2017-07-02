@@ -8,14 +8,10 @@ date: "1 de julio de 2017"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Preproceso 1
+## Preproceso de datos 1
 
-Se eliminan algunos valores pérdidos que fueron representados
-a través de valores no vacios. Construcción de la variable dependiente
-Se decide transformar la variable P6210 (Nivel educativo mas alto alcanzado)
-en una variable con tres niveles: bajo, medio, alto.
-El nivel bajo esta conformado por los valores: 1. Ninguno, 2. Preescolar, 3. B?sica primaria, 4. B?sica secundaria
-El nivel medio por: 5. Media.
+Se eliminan algunos valores pérdidos de la base de datos **bd_Nac.csv** que fueron representados a través de valores no vacios. Construcción de la variable dependiente Se decide transformar la variable P6210 (Nivel educativo mas alto alcanzado) en una variable con tres niveles: bajo, medio, alto.
+El nivel bajo esta conformado por los valores: 1. Ninguno, 2. Preescolar, 3. B?sica primaria, 4. B?sica secundaria El nivel medio por: 5. Media.
 El nivel alto por: 6. Superior o universitaria.
 
 ```{r}
