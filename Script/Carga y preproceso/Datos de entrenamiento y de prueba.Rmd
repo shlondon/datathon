@@ -1,19 +1,35 @@
-#An·lisis 1.0 PredicciÛn.
+---
+title: "Bases de datos de prueba y entrenamiento"
+author: "Sahlre"
+date: "1 de julio de 2017"
+---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Datos de entrenamiento, validaci√≥n y prueba
+
+Acontinuaci√≥n se encuentra el c√≥digo que produce la base de datos de 
+entrenamiento: **bd_Train.csv**, la base de datos de prueba:
+**bd_Test.csv**. Tambi√©n las bases de datos para aplicar la t√©cnica
+de remuestreo *5-fold cross validation*.
+
+```{r}
 #Base de datos total nacional
 bd_Nac <- read.csv("bd_Nac_final.csv",
                    colClasses = "factor")
 
 #Se crea cinco bases de datos de entrenamiento,
-#cinco bases de datos de validaciÛn y
+#cinco bases de datos de validaci?n y
 #una base de datos de prueba.
 
-#Las divisiones se realizar·n utilizando el paquete caret()
+#Las divisiones se realizar?n utilizando el paquete caret()
 #Paquete especializado para Machine Learning en R.
-#La divisiÛn se realiza teniendo en cuenta la variable dependiente
+#La divisi?n se realiza teniendo en cuenta la variable dependiente
 library(caret)
 
-#Semilla de n˙meros aleatorios para que los resultados
+#Semilla de n?meros aleatorios para que los resultados
 #Sean replicables
 set.seed(2717)
 
@@ -27,7 +43,7 @@ bd_Train <- bd_Nac[seltrain,]
 bd_Test <- bd_Nac[-seltrain,]
 
 #Base de datos de entrenamiento 1  y 
-#Base de datos de validaciÛn 1.
+#Base de datos de validaci?n 1.
 set.seed(2717)
 selvalid1 <- createDataPartition(y=bd_Train$P6210nuevo,
                                 p = 0.2,
@@ -36,7 +52,7 @@ bd_Train1 <- bd_Train[-selvalid1,]
 bd_Valid1 <- bd_Train[selvalid1,]
 
 #Base de datos de entrenamiento 2  y 
-#Base de datos de validaciÛn 2.
+#Base de datos de validaci?n 2.
 set.seed(2717)
 selvalid2 <- createDataPartition(y=bd_Train1$P6210nuevo,
                                  p = 0.25,
@@ -46,7 +62,7 @@ bd_Train22 <- rbind.data.frame(bd_Train2,bd_Valid1)
 bd_Valid2 <- bd_Train1[selvalid2,]
 
 #Base de datos de entrenamiento 3  y 
-#Base de datos de validaciÛn 3.
+#Base de datos de validaci?n 3.
 set.seed(2717)
 selvalid3 <- createDataPartition(y=bd_Train2$P6210nuevo,
                                  p = 0.333221,
@@ -58,7 +74,7 @@ bd_Train33 <- rbind.data.frame(bd_Train3,
 bd_Valid3 <- bd_Train2[selvalid3,]
 
 #Base de datos de entrenamiento 3  y 
-#Base de datos de validaciÛn 3.
+#Base de datos de validaci?n 3.
 set.seed(2717)
 selvalid4 <- createDataPartition(y=bd_Train3$P6210nuevo,
                                  p = 0.4998851,
@@ -71,7 +87,7 @@ bd_Train44 <- rbind.data.frame(bd_Train4,
 bd_Valid4 <- bd_Train3[selvalid4,]
 
 #Base de datos de entrenamiento 3  y 
-#Base de datos de validaciÛn 3.
+#Base de datos de validaci?n 3.
 bd_Train55 <- rbind.data.frame(bd_Valid1,
                               bd_Valid2,
                               bd_Valid3,
@@ -80,7 +96,7 @@ bd_Valid5 <- bd_Train4
 
 
 #Se Transforman las bases de datos de entrenamiento,
-#validaciÛn y prubea en archivos .csv
+#validaci?n y prubea en archivos .csv
 
 write.csv(bd_Train, "bd_Train.csv")
 
@@ -100,4 +116,6 @@ write.csv(bd_Train55, "bd_Train5.csv")
 write.csv(bd_Valid5, "bd_Valid5.csv")
 
 write.csv(bd_Test, "bd_Test.csv")
+```
+
 

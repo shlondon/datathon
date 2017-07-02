@@ -1,8 +1,7 @@
 ---
-title: "Carga y preproceso de datos"
+title: "Cargar de datos"
 author: "Sahlre"
 date: "20 de junio de 2017"
-output: html_document
 ---
 
 ```{r setup, include=FALSE}
@@ -17,18 +16,18 @@ de Hogares (GEIH) - 2017. Se pueden encontrar en: http://formularios.dane.gov.co
 
 Se elijieron las bases de datos del mes de abril. Luego con el objetivo 
 de tener una base de datos a nivel nacional con la mayor cantidad de observaciones
-se seleccionaron las bases de datos: **Características Generales**, **Fuerza Laboral**, **Fuerza de trabajo**, **Otras actividades y ayudas en la semana**,
-**otros ingresos** y **Vivienda y hogares**, tanto para Areas metropolitanas como para Cabeceras y zonas Rurales. Con cada una de esas bases de datos se procedió
-a seleccionar aquellas variables con un porcentaje de valores pérdidos inferior al 10%. Tal decisión se toma con la intención de crear un modelo predictivo del nivel educativo que aproveche la mayor cantidad de observaciones de las bases de datos de la GEIH. De esta manera, la propuesta de este análisis de datos no se convierte en una respuesta única a la variación del nivel educativo de los colombianos, sino en una aproximación al mejor modelo predictivo del nivel educativo de los colombianos a partir de la GEIH.
+se seleccionaron las bases de datos: **Caracter?sticas Generales**, **Fuerza Laboral**, **Fuerza de trabajo**, **Otras actividades y ayudas en la semana**,
+**otros ingresos** y **Vivienda y hogares**, tanto para Areas metropolitanas como para Cabeceras y zonas Rurales. Con cada una de esas bases de datos se procedi?
+a seleccionar aquellas variables con un porcentaje de valores p?rdidos inferior al 10%. Tal decisi?n se toma con la intenci?n de crear un modelo predictivo del nivel educativo que aproveche la mayor cantidad de observaciones de las bases de datos de la GEIH. De esta manera, la propuesta de este an?lisis de datos no se convierte en una respuesta ?nica a la variaci?n del nivel educativo de los colombianos, sino en una aproximaci?n al mejor modelo predictivo del nivel educativo de los colombianos a partir de la GEIH.
 
-Luego utilizando las llaves de cada una de las bases de datos, se procedió a unirlas, lo que arrojó una base de datos total nacional de 68042 observaciones
+Luego utilizando las llaves de cada una de las bases de datos, se procedi? a unirlas, lo que arroj? una base de datos total nacional de 68042 observaciones
 con 67 variables, incluyendo las llaves.
 
-El siguiente código permite crear dicha base de datos total.
+El siguiente c?digo permite crear dicha base de datos total.
 
 ```{r, eval=FALSE}
-#La función bd_completa() crea un data.frame cuyas variables tienen un porcentaje
-#de valores pérdidos inferior a 10% y con observaciones completas.
+#La funci?n bd_completa() crea un data.frame cuyas variables tienen un porcentaje
+#de valores p?rdidos inferior a 10% y con observaciones completas.
 #El argumento base_datos es el archivo tipo .txt 
 #que contiene la base de datos proporcionada por el DANE.
 
@@ -40,17 +39,17 @@ bd_completa <- function(base_datos){
                           sep = "\t",
                           na.strings = "")
         
-        #Investigar Valores pérdidos
+        #Investigar Valores p?rdidos
         Vector_NA <- sapply(bd1, function(x){
                 round((sum(is.na(x))/dim(bd1)[1])*100,2)
         })
         
-        #Elección variables con porcentaje de valores pérdidos inferior a 10%
+        #Elecci?n variables con porcentaje de valores p?rdidos inferior a 10%
         #Nombre de las variables a seleccionar
         nombres <- names(Vector_NA[Vector_NA <= 10])
         
-        #Base de datos bd1 cuyas variables tienen un porcentaje de valores pérdidos inferior
-        #a 10%, y sin valores pérdidos
+        #Base de datos bd1 cuyas variables tienen un porcentaje de valores p?rdidos inferior
+        #a 10%, y sin valores p?rdidos
         bd1 <- bd1[,nombres]
         bd1 <- bd1[complete.cases(bd1),]
         
@@ -61,7 +60,7 @@ bd_completa <- function(base_datos){
 
 #Areas Metropolitanas
 
-#Base de datos características Generales
+#Base de datos caracter?sticas Generales
 bd_Area_Car_Grals <- bd_completa(base_datos = lista_archivos[1])
 
 #Base de datos Fuerza de trabajo
@@ -79,7 +78,7 @@ bd_Area_Vivienda_Hogares <- bd_completa(base_datos = lista_archivos[8])
 
 #Cabecera
 
-#Base de datos características Generales
+#Base de datos caracter?sticas Generales
 bd_Cabecera_Car_Grals <- bd_completa(base_datos = lista_archivos[9])
 
 #Base de datos Fuerza de trabajo
@@ -97,7 +96,7 @@ bd_Cabecera_Vivienda_Hogares <- bd_completa(base_datos = lista_archivos[16])
 
 #Resto (Rural)
 
-#Base de datos características Generales
+#Base de datos caracter?sticas Generales
 bd_Rural_Car_Grals <- bd_completa(base_datos = lista_archivos[18])
 
 #Base de datos Fuerza de trabajo
@@ -184,7 +183,7 @@ names(bd_Area_Tot) <- nombres
 
 #Se cambia los valores de la variable clase en la base
 #de datos bd_Area_Car_Grals. Todos deben asumir el valor de 3
-#que representa áreas metropolitanas
+#que representa ?reas metropolitanas
 bd_Area_Tot$Clase <- "3"
 
 #Las bases de datos totales deben tener las mismas columnas (variables)
@@ -219,12 +218,12 @@ bd_Nac <- rbind.data.frame(bd_Area_Tot,
 
 #Eliminando valores perdidos, se producen luego de unir los datos de vivienda para cada 
 #una de las zonas. Algunos datos de las viviendas son faltantes entonces al momento
-#de unirlos con las respectivas personas se transforman en valores pérdidos.
+#de unirlos con las respectivas personas se transforman en valores p?rdidos.
 bd_Nac <- bd_Nac[complete.cases(bd_Nac),]
 
 #Codigo para transformar la base de datos bd_Nac en un archivo .csv.
-#Esto es muy útil para evitar el reproceso de crear la base de datos bd_Nac.
-#Atención: este nuevo archivo queda en la area de trabajo actual.
+#Esto es muy ?til para evitar el reproceso de crear la base de datos bd_Nac.
+#Atenci?n: este nuevo archivo queda en la area de trabajo actual.
 write.csv(bd_Nac, "bd_Nac.csv")
 
 ```
