@@ -205,11 +205,11 @@ d <- summary(m3)$coeff
 round(exp(d[,1]),2)
 ```
 
-- Las personas sin computadora para uso en el hogar (P5210s16) tienen 62% menos de posibilidades de tener nivel educativo alto.
+- Las personas sin computadora para uso en el hogar (P5210s16) tienen 62% menos de posibilidades de tener nivel educativo alto que aquellos que si la tienen.
 
 - Las personas con Régimen de Seguridad Social en Salud (RSSS) especial (P6100) tienen 1.53 veces más de posibilidades de tener nivel educativo alto que aquellos que tiene RSSS contributivo. Y aquellas personas con RSSS subsidiado tienen 67% menos de posibilidades de tener nivel educativo alto que los que tienen RSSS contributivo.
 
-- A medida que las personas envejecen (P6040) el nivel educativo tienen 2% menos de posibilidades de tener nivel educativo alto.
+- A medida que las personas envejecen (P6040) tienen 2% menos de posibilidades de tener un nivel educativo alto.
 
 - Las personas que estaban buscando trabajo la semana pasada (P6240) tienen 68% más de posibilidades de tener nivel educativo alto que aquellos que estuvieron trabajando. Y las personas que ocuparon la mayor parte de la semana pasada en oficios del hogar, incapacitados para trabajar, estudiando u otras actividades tienen menos posibilidades de tener nivel educativo alto que aquellos que estuvierón trabajando.
 
