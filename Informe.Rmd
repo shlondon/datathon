@@ -170,21 +170,59 @@ De los algorítmos estimados *Uno vs todos Regresión Logistica Multivariada* y 
 En la figura 1 se observa el Árbol de clasificacion estimado. Tiene 7 nodos internos, 8 nodos términales, y las variables usadas para su construcción son P6040 (Edad), P6100 (¿A cuál de los siguientes regimenes de seguridad social en salud esta afiliado? 1. Contributivo (EPS), 2. Especial (Fuerzas Armadas, Ecopetrol, Universidades Públicas), 3. Subsidiado (EPS-S)) y P6170 (¿Actualmente, asiste al preescolar, escuela, colegio o universidad? 1. Si, 2. No.). La interpretación es de este tipo de algorítmos es muy sencilla:
 
 Nivel bajo
+
 - Personas menores a los 11 años tienen nivel educativo bajo.
 - Personas con Régimen de Seguridad Social en Salud (RSSS) subsidiado y mayores a 35 años tienen un nivel educativo bajo.
 - Personas con RSSS contributivo o especial y mayores a 47 años tienen nivel educativo bajo.
 
 Nivel medio y alto
+
 - Personas mayores entre los 11 y 35 años con RSSS subsidiado que se encuentran estudiando tienen un nivel educativo alto, aquellos que no están asistiendo a centros educativos tienen un nivel educativo medio.
 - Personas con RSSS contributivo o especial entre los 11 y 47 años que no se encuentran estudiando tienen un nivel educativo alto.
 - Personas con RRSS contributivo o especial entre los 13 y 47 años que se encuentran estudiando o no estudiando tienen un nivel educativo alto.
-- Personas con RSSS contributivo o especial entre los 11 y 13 años que se encuentran estudiando tienen nivel educativo medio.
+- Personas con RSSS contributivo o especial entre los 11 y 13 años que se encuentran estudiando tienen nivel educativo medio.![Árbol de Clasificación](plot1.jpg)
+
+###Interpretación de Uno vs todos Regresión Logistica
+
+Para facilitar la interpretación del algorítmo se estima con la varible respuesta como una variable binaria donde el valor 1 corresponde a nivel educativo alto y el valor 0 a nivel educativo bajo o medio. Se estima con las seis mejores variables obtenidas a través del proceso Forward Stepwise Selection. Ellas son:
+
+- P5210s16 (¿Hay computador (para uso del hogar)? 1. Si, 2. No.)
+- p6100 (¿A cuál de los siguientes regimenes de seguridad social en salud esta afiliado? 1. Contributivo (EPS), 2. Especial (Fuerzas Armadas, Ecopetrol, Universidades Públicas), 3. Subsidiado (EPS-S))
+- P6040 (¿Cuántos años cumplidos tiene?)
+- P6240 (¿En qué actividad ocupó la mayor parte del tiempo la semana pasada? 1. Trabajando, 2. Buscando trabajo, 3. Estudiando, 4. Oficios del hogar, 5. Incapacitado permanente para trabajar, 6. Otra actividad.)
+- P6170 (¿Actualmente, asiste al preescolar, escuela, colegio o universidad? 1. Si, 2. No.)
+- P4020 (¿Cuál es el material predominante de los pisos de la vivienda? 1. Tierra, arena, 2. Cemento, gravilla, 3. Madera burda, tabla, tablón, otro vegetal, 4. Baldosín, ladrillo, vinisol, otros materiales sintéticos, 5. Mármol, 6. Madera pulida, 7. Alfombra o tapete de pared a pared.)
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+load("RLM.rda")
+summary(m3)
+```
+
+Todos las variables tienen relación estadísticamente significativa con el nivel educativo. Para interpretar los coeficientes se transforman a posibilidades (odds). 
+
+```{r, echo=FALSE}
+d <- summary(m3)$coeff
+round(exp(d[,1]),2)
+```
+
+- Las personas sin computadora para uso en el hogar (P5210s16) tienen 62% menos de posibilidades de tener nivel educativo alto.
+
+- Las personas con Régimen de Seguridad Social en Salud (RSSS) especial (P6100) tienen 1.53 veces más de posibilidades de tener nivel educativo alto que aquellos que tiene RSSS contributivo. Y aquellas personas con RSSS subsidiado tienen 67% menos de posibilidades de tener nivel educativo alto que los que tienen RSSS contributivo.
+
+- A medida que las personas envejecen (P6040) el nivel educativo tienen 2% menos de posibilidades de tener nivel educativo alto.
+
+- Las personas que estaban buscando trabajo la semana pasada (P6240) tienen 68% más de posibilidades de tener nivel educativo alto que aquellos que estuvieron trabajando. Y las personas que ocuparon la mayor parte de la semana pasada en oficios del hogar, incapacitados para trabajar, estudiando u otras actividades tienen menos posibilidades de tener nivel educativo alto que aquellos que estuvierón trabajando.
+
+- Las personas que no están asistiendo actualmente al colegio o universidad (P6170) tienen 90% menos de posibilidades de tener nivel educativo alto que aquellos que están asistiendo.
+
+- Las personas que habitan en viviendas cuyo material predominante de los pisos (P4020) es cemento o madera o baldosín o mármol o madera púlida o alfombra tienen myaor posibilidades de tener nivel educativo alto que aquellos que habitan en viviendas con pisos de tierra o arena.
 
 
 
-![Árbol de Clasificación](plot1.jpg)
 
-###Interpretación del 
+
+
+
 
 
 
