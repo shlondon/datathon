@@ -125,7 +125,7 @@ Los métodos basados en árboles consisten en segmentar el espacio de variables 
 Con el algortimo Árbol de clasifiacación sucede algo similar al resultado del anterior algoritmo. Los errores de clasificación en datos de entrenamiento y de prueba son altos y similares, lo que indica alto sesgo. De esta manera, para aumentar el nivel de predicción sería necesario utilizar algorítmos que produzcan hipótesis no lineales complejas como lo son las Redes Neuronales, las Maquinas de Soporte Vectorial o los Bosques Aleatorios.
 
 
-### Bagging de Árboles de clasificación
+### Bagging en Árboles de clasificación
 
 *El código para estimar el algorítmo se encuentra en el archivo* **[Bagging](https://github.com/shlondon/datathon/blob/master/Script/Analisis/Bagging.R)**
 
@@ -142,6 +142,8 @@ En esta oportunidad se obtienen menor error de predicción tanto en datos de ent
 
 
 ### Bosques Aleatorios
+*El código para estimar el algorítmo se encuentra en el archivo* **[RandomForest](https://github.com/shlondon/datathon/blob/master/Script/Analisis/RandomForest.R)**
+
 Los Bosques Aleatorios proporcionan una mejora sobre el algorítmo Bagging en Árboles de Clasificación, a través de un ajuste aleatorio que evita la asociación de los árboles creados. Luego de estimar el algorítmo con 25 árboles para todas la variables predictoras se obtiene:
 
 - Error de clasificación de entrenamiento = 0.008
@@ -152,5 +154,15 @@ Los resultados son similares al los obtenidos con el algorítmo Bagging de Árbo
 - Usar diferente cantidad de árboles al momento de estimar el algorítmo. Si se explora el archivo **[RandomForest](https://github.com/shlondon/datathon/blob/master/Script/Analisis/RandomForest.R)** la cantidad de árboles utilizado fue 25.
 
 - Utilizar una técnica de selección de variables como Forward Stepwise Selectión, Backward Stepwise Selection o Principal Components Analysis.
+
+###Boosting en Árboles de Clasificación.
+La idea del algorítmo Boosting en Árboles de Clasificación es mejorar la poder de predicción de los árboles de clasificación. Es parecido al algorítmo Bagging en Árboles de Clasificación excepto por el método de remuestreo utilizado para estimar los árboles de decisión. Luego de estimar el algorítmo con 25 árboles para todas la variables predictoras se obtiene:
+
+- Error de clasificación de entrenamiento = 0.3602
+- Error de clasificación de prueba = 0.3649
+
+Con el algortimo Boosting en Árbols de clasifiacación sucede algo similar al resultado de los dos primeros algorítmos. Los errores de clasificación en datos de entrenamiento y de prueba son altos y similares, lo que indica alto sesgo. De esta manera, para aumentar el nivel de predicción sería necesario utilizar algorítmos que produzcan hipótesis no lineales complejas como lo son las Redes Neuronales, las Maquinas de Soporte Vectorial o los Bosques Aleatorios, reducir el número de varibles a través de métodos de selección de variables o usar otras variables.
+
+
 
 
