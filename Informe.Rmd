@@ -219,6 +219,15 @@ round(exp(d[,1]),2)
 
 ##Conclusión
 
+Se construyo una base de datos con la mayor cantidad de observaciones obtenidas a partir de las bases de datos del mes de abril de la Gran Encuesta Integrada de Hogares (GEIH) 2017. Esta base de datos contiene una gran cantidad de características generales de los individuos entrevistados, desde el régimen de seguridad social en salud, características de la vivienda donde habita, posesión de bienes como automóvil, computadora.
+
+Es posible predecir a partir de dichas características el nivel educativo de las personas. Utilizando el algorítmo Bagging en Árboles de Clasificación se obtuvo el menor error de clasificación de prueba (0.1925) esto significa que el algorítmo tiene un nivel de precisión en el pronóstico igual a 80,75%. El algorítmo sufre de varianza (sobreajuste) el cuál se puede mejorar utilizando diferentes parámetros para estimar el Bagging (número de árboles) o utilizando técnicas para reducir el número de variables. Con el propósito de mejor la capacidad de predicción también se recomienda utilizar algorítmos como las redes neuronales o máquinas de soporte vectorial que permiten estimar hipótesis complejas.
+
+Sin embargo un algorítmo con gran poder de predicción es dificil de interpretar ya que es difícil determinar cómo es la relación de las variables predictoras con la variable resultado. Por ello se decidio estimar algorítmos que a pesar de su bajo poder de predicción son sencillos de interpretar, ellos fueron:
+*Uno vs todos Regresión Logística Multivariada* y *Árboles de Clasificación*.
+
+En ambos modelos se presenta un patrón: el nivel educativo es alto cuando las personas jóvenes están estudiando. Un rubro importante de esos 100 millones de dólares se sugieré invertirlos en fortalecer las políticas de permanencia educativa a nivel básico, medio y alto. Esto no significa que es sólo invertir en cobertura, edificios, y capital humano sino también en estrategias pedagógicas y currículos de asignaturas que hagan del estudio no una tediosa tarea sino una maravillosa experiencia donde se construyen y materializan sueños.
+
 ##Tecnología empleada
 El análisis de datos se realizó utilizando el software R. Y las librerias:
 
