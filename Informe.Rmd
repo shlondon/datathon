@@ -40,7 +40,7 @@ Finalmente en el proceso de construcción de la base de datos sobre la que se re
 ##Predicción del nivel educativo
 ###Uno vs todos Regresión Logistica Multivariada
 
-*El código para estimar el algorítmo se encuentra en el archivo* [FSS Uno vs Todos](https://github.com/shlondon/datathon/blob/master/Script/Analisis/FSS_Uno_vs_Todos.R)
+*El código para estimar el algorítmo se encuentra en el archivo* **[FSS Uno vs Todos](https://github.com/shlondon/datathon/blob/master/Script/Analisis/FSS_Uno_vs_Todos.R)**
 
 Cómo el nivel educativo, variable dependiente, asume tres niveles: Bajo-Medio-Alto,
 la predicción de esta variable no se puede ejecutar a través de la Regresión Logistica Multivariada adecuada para una variable resultado binaria. Este algoritmo consiste en aplicar una regresión logística multivariada por cada nivel asumido en la variable dependiente. De esta manera se estiman tres modelos: el primero con la variable dependiente asumiendo sólo dos valores: "Bajo" y "El resto", el segundo con la variable dependiente: "Medio" y "El resto", y el tercero con: "Alto" y "El resto".
@@ -115,7 +115,7 @@ Resultados que indican varios caminos a seguir si se desea mejorar la predicció
 - Adicionar nuevas variables.
 
 ### Árbol de Clasificación.
-*El código para estimar el algorítmo se encuentra en el archivo* [Tree](https://github.com/shlondon/datathon/blob/master/Script/Analisis/Tree.R)
+*El código para estimar el algorítmo se encuentra en el archivo* **[Tree](https://github.com/shlondon/datathon/blob/master/Script/Analisis/Tree.R)**
 
 Los métodos basados en árboles consisten en segmentar el espacio de variables predictoras (independientes) dentro de un número más simple de regiones. Luego de estimar el árbol de clasificación para las 60 variables predictoras o independientes se obtiene:
 
@@ -127,17 +127,30 @@ Con el algortimo Árbol de clasifiacación sucede algo similar al resultado del 
 
 ### Bagging de Árboles de clasificación
 
-*El código para estimar el algorítmo se encuentra en el archivo* [Bagging](https://github.com/shlondon/datathon/blob/master/Script/Analisis/Bagging.R)
+*El código para estimar el algorítmo se encuentra en el archivo* **[Bagging](https://github.com/shlondon/datathon/blob/master/Script/Analisis/Bagging.R)**
 
-Uno de los problemas más recurrentes de los árboles de decisión es la débil precisión en el pronóstico. El método Bagging o Bootstrap aggregation es un procedimiento para reducir la varianza de los algorítmos supervisados. Luego de estimar el algorítmo para todas la variables predictoras se obtiene:
+Uno de los problemas más recurrentes de los árboles de decisión es la débil precisión en el pronóstico. El método Bagging o Bootstrap aggregation es un procedimiento para reducir la varianza de los algorítmos supervisados. Luego de estimar el algorítmo con 25 árboles para todas la variables predictoras se obtiene:
 
 - Error de clasificación de entrenamiento = 0.007
 - Error de clasificación de prueba = 0.1925
 
+En esta oportunidad se obtienen menor error de predicción tanto en datos de entrenamiento como de prueba. También se presenta una amplia brecha de entre el error de entrenamiento y el error de prueba. Esto indica que el modelo estimado sufre de varianza. Aunque el modelo sufre de alta varianza posee mejor poder de predicción que los anteriores algorítmos estimados. Tal resultado sugiere posibles caminos para mejorar el algorítmo:
+
+- Usar diferente cantidad de árboles al momento de estimar el algorítmo. Si se explora el archivo **[Bagging](https://github.com/shlondon/datathon/blob/master/Script/Analisis/Bagging.R)** la cantidad de árboles utilizado fue 25.
+
+- Utilizar una técnica de selección de variables como Forward Stepwise Selectión, Backward Stepwise Selection o Principal Components Analysis.
+
+
 ### Bosques Aleatorios
+Los Bosques Aleatorios proporcionan una mejora sobre el algorítmo Bagging en Árboles de Clasificación, a través de un ajuste aleatorio que evita la asociación de los árboles creados. Luego de estimar el algorítmo con 25 árboles para todas la variables predictoras se obtiene:
 
+- Error de clasificación de entrenamiento = 0.008
+- Error de clasificación de prueba = 0.1958
 
+Los resultados son similares al los obtenidos con el algorítmo Bagging de Árboles de Clasificación. El algorítmo Bosques Aleatorios estimado sufre de varianza aunque tienen mejores resultados en predicción que los tres primeros algoritmos estimados en este estudio. Este resultado sugiere los siguientes caminos para mejorar la capacidad de predicción:
 
+- Usar diferente cantidad de árboles al momento de estimar el algorítmo. Si se explora el archivo **[RandomForest](https://github.com/shlondon/datathon/blob/master/Script/Analisis/RandomForest.R)** la cantidad de árboles utilizado fue 25.
 
+- Utilizar una técnica de selección de variables como Forward Stepwise Selectión, Backward Stepwise Selection o Principal Components Analysis.
 
 

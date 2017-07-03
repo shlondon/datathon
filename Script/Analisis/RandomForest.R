@@ -1,28 +1,17 @@
 
-
+#Libreria para estimar Bosques Aleatorios
 library(randomForest)
-library(ISLR)
-
-data(Boston)
-
 
 modeloRF <- randomForest(P6210nuevo ~ .,
-                         mtyr = 8,
+                         mtyr = round(sqrt(dim(bd_Train1)[2]-1)),
                          importance = TRUE,
                          data = bd_Train1,
                          ntree = 25)
 
-modeloRF <- randomForest(P6210nuevo ~ Dpto + P6040 + P5090 + 
-                                 P6100 + P5070 + P5210s20 +
-                                 P4000 + P5080,
-                         mtyr = 8,
-                         importance = TRUE,
-                         data = bd_Train1,
-                         ntree = 25)
-
+#Precisión en datos de prueba
 predRF <- predict(modeloRF, newdata = bd_Valid1[,-61])
 mean(predRF == bd_Valid1$P6210nuevo)
-df <- importance(modeloRF)
-df <- df[order(-df[,4]),]
-df
-varImpPlot(modeloRF)
+
+#Precisión en datos de entrenamiento
+predRF <- predict(modeloRF, newdata = bd_Train1[,-61])
+mean(predRF == bd_Train1$P6210nuevo)
